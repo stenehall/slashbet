@@ -2,9 +2,9 @@ extends layout
 
 block content
   ul
-  - bets.forEach(function(item) {
-    li= item.bet
-  - })
+    each bet in bets
+      li
+        a(href=bet.hash)= bet.bet
 
 block post
   form(action='/post',method='post')

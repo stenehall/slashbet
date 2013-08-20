@@ -1,28 +1,19 @@
 {
-  "name": "text-rpg",
+  "name": "slashbet",
   "version": "0.0.1",
-  "readme": "A textbased RPG",
-  "contributors": [
-    {
-      "name": "Matthew Evans",
-      "email": "mcaevans@gmail.com"
-    },
-    {
-      "name": "Johan Stenehall",
-      "email": "stenehall@gmail.com"
-    }
-  ],
-  "private": true,
+  "readme": "Betting för Slashat",
+  "author": "Johan Stenehall <stenehall@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/stenehall/textRPG"
+    "url": "https://github.com/stenehall/slashbet"
   },
   "scripts": {
     "start": "node app.js"
   },
   "dependencies": {
     "express": "3.3.5",
-    "jade": "*"
+    "jade": "*",
+    "shorthash": "*"
   },
   "scripts": {
     "test": "find ./tests -name '*_test.js' | xargs mocha -R spec"

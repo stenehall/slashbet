@@ -1,0 +1,11 @@
+h1= bet.bet
+
+p
+  | Ja röster:
+  = ' ' + bet.yes
+  a(href="/"+bet.hash+'/yes') Rösta ja
+
+p
+  | Nej röster:
+  = ' ' + bet.no
+  a(href="/"+bet.hash+'/no') Rösta nej

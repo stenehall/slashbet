@@ -9,10 +9,11 @@ var http = require('http');
 var path = require('path');
 var fs = require('fs');
 
+
 var app = express();
 
 global.betsFile = 'db/bets.js';
-global.bets = [];
+global.bets = {};
 
 
 // all environments
@@ -25,6 +26,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+app.use("/media", express.static(__dirname + '/media'));
 
 
 // development only
@@ -44,6 +46,10 @@ fs.exists(betsFile, function (exists) {
 
 app.get('/', routes.index);
 app.post('/post', routes.post);
+app.get('/:hash', routes.single);
+app.get('/:hash/:vote', routes.vote);
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
