@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  ul
+  - bets.forEach(function(item) {
+    li= item.bet
+  - })
+
+block post
+  form(action='/post',method='post')
+    input(id='bet',type='text',value='',placeholder='Skriv in ditt bet här',name='bet')
