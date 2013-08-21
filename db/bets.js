@@ -1,1 +1,0 @@
-{"2t9JMe":{"bet":"asöldkfjasdf","yes":0,"no":0,"hash":"2t9JMe","ips":[]},"Zxy7uQ":{"bet":"Det här är en grej","yes":0,"no":0,"hash":"Zxy7uQ","ips":[]}}

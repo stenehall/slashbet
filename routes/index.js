@@ -1,6 +1,23 @@
 var fs = require('fs');
 var sh = require("shorthash");
 
+
+
+function ipTohex (ip) {
+  var parts = ip.split('.');
+  var hex = '';
+  hex = hex + lpad(parseInt(parts[0]).toString(16), 2);
+  hex = hex + lpad(parseInt(parts[1]).toString(16), 2);
+  hex = hex + lpad(parseInt(parts[2]).toString(16), 2);
+  return hex;
+}
+
+function lpad (str, length) {
+  while (str.length < length)
+      str = "0" + str;
+  return str;
+}
+
 /*
  * GET home page.
  */
@@ -32,11 +49,18 @@ exports.single = function single(req, res){
     res.redirect('/');
   }
 
-  res.render('single', { title: 'Slashbet', bet: bet });
+  var percent;
+  if (bet.yes || bet.no)
+  {
+    percent = Math.round((bet.yes / (bet.yes+bet.no))*100);
+  }
+
+  console.log(bet);
+
+  res.render('single', { title: bet.bet, bet: bet, percent: percent, hex: bet.color });
 };
 
 exports.vote = function vote(req, res){
-
   var bets = global.bets;
   bet = bets[req.params.hash];
   if (bet === undefined)
@@ -44,14 +68,16 @@ exports.vote = function vote(req, res){
     res.redirect('/');
   }
 
-  console.log(req.connection.remoteAddress);
   if(bet.ips.indexOf(req.connection.remoteAddress) === -1)
   {
-    bet.ips.push(req.connection.remoteAddress);
     if(bet[req.params.vote] !== undefined)
     {
-      console.log('fount vore');
-      bet[req.params.vote]++;
+      bets[req.params.hash][req.params.vote]++;
+      bets[req.params.hash].ips.push(req.connection.remoteAddress);
+
+      fs.writeFile(global.betsFile, JSON.stringify(global.bets), function (err) {
+        if (err) throw err;
+      });
     }
   }
 
@@ -61,14 +87,13 @@ exports.vote = function vote(req, res){
 exports.post = function post(req, res) {
 
   var hash = sh.unique(req.body.bet);
-  console.log('--------');
-  console.log(hash);
-  console.log('--------');
+  var hex = ipTohex(req.connection.remoteAddress);
 
-  global.bets[hash] = {'bet': req.body.bet, 'yes': 0, 'no': 0, 'hash': hash, 'ips': []};
+  global.bets[hash] = {'bet': req.body.bet, 'color': hex, 'yes': 0, 'no': 0, 'hash': hash, 'ips': []};
 
   fs.writeFile(global.betsFile, JSON.stringify(global.bets), function (err) {
       if (err) throw err;
     });
   res.redirect('/');
 }
+

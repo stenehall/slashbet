@@ -1,11 +1,13 @@
-h1= bet.bet
+extends layout
 
-p
-  | Ja röster:
-  = ' ' + bet.yes
-  a(href="/"+bet.hash+'/yes') Rösta ja
+block content
 
-p
-  | Nej röster:
-  = ' ' + bet.no
-  a(href="/"+bet.hash+'/no') Rösta nej
+  p.yes
+    a(href="/"+bet.hash+'/yes') Rösta ja (#{bet.yes})
+
+  p.no
+    a(href="/"+bet.hash+'/no') Rösta nej (#{bet.no})
+
+  if percent !== underfined
+    div(class="bar")
+      div(style="width:"+percent+"%;")
