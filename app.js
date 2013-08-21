@@ -40,6 +40,8 @@ fs.exists(betsFile, function (exists) {
       if (err) throw err;
       bets = JSON.parse(data);
     }.bind(this));
+  } else {
+    fs.mkdirSync('db');
   }
 }.bind(this));
 
