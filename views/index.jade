@@ -2,10 +2,11 @@ extends layout
 
 block content
   ul
-    each bet in bets
+    each bet in arr
       li
-        a(href=bet.hash)= bet.bet
+        a(href=bet.hash)= bet.bet+" ("+bet.date+")"
 
 block post
   form(action='/post',method='post')
     input(id='bet',type='text',value='',placeholder='Skriv in ditt bet här',name='bet')
+    input(id='date',class='date',type='date', name='date')

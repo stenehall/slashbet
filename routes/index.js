@@ -33,11 +33,13 @@ exports.index = function index(req, res){
       }
   }
 
-  arr.sort(function(a, b) { return a.yes - b.yes; });
+  arr.sort(function(a, b) {
+    return (a.yes+a.no) < (b.yes+b.no);
+  });
+
   console.log(arr);
 
-
-  res.render('index', { title: 'Slashbet', bets: arr });
+  res.render('index', { title: 'Slashbet', arr: arr });
 };
 
 exports.single = function single(req, res){
@@ -57,7 +59,7 @@ exports.single = function single(req, res){
 
   console.log(bet);
 
-  res.render('single', { title: bet.bet, bet: bet, percent: percent, hex: bet.color });
+  res.render('single', { title: bet.bet+" <small>("+bet.date+")</small>", bet: bet, percent: percent, hex: bet.color });
 };
 
 exports.vote = function vote(req, res){
@@ -88,8 +90,7 @@ exports.post = function post(req, res) {
 
   var hash = sh.unique(req.body.bet);
   var hex = ipTohex(req.connection.remoteAddress);
-
-  global.bets[hash] = {'bet': req.body.bet, 'color': hex, 'yes': 0, 'no': 0, 'hash': hash, 'ips': []};
+  global.bets[hash] = {'bet': req.body.bet, 'color': hex, 'yes': 0, 'no': 0, 'hash': hash, 'ips': [], 'date': req.body.date};
 
   fs.writeFile(global.betsFile, JSON.stringify(global.bets), function (err) {
       if (err) throw err;
