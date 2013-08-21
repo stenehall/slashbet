@@ -3,7 +3,7 @@ extends layout
 block content
   ul
     each bet in arr
-      li
+      li(style="background:#"+bet.color)
         a(href=bet.hash)= bet.bet+" ("+bet.date+")"
 
 block post
